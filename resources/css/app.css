@@ -1,3 +1,93 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* DROPDOWN */
+.caret {
+    cursor: pointer;
+    user-select: none;
+}
+.caret::before {
+    content: "\25B6";
+    color: black;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.caret-down {
+    @apply bg-gray-300;
+}
+.active-list-item {
+    @apply bg-gray-300;
+}
+
+/* rotate the arrow icon */
+.caret-down::before {
+    transform: rotate(90deg);
+}
+
+/* hide the nested ul */
+.nested {
+    display: none;
+}
+/* show the nested list */
+.active {
+    display: block;
+}
+/* DROPDOWN */
+
+/* FORMS */
+.input-control {
+    @apply block
+        px-3
+        py-1.5
+        text-base
+        font-normal
+        text-gray-700
+        bg-white bg-clip-padding
+        border border-solid border-gray-300
+        rounded
+        transition
+        ease-in-out
+        m-0
+        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none;
+    height: 36px;
+}
+
+.button {
+    @apply inline-block px-2 py-2 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out;
+}
+
+.edit-button {
+    @apply inline-flex items-center px-2 py-2 bg-gray-500 border
+    rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-900
+    active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300
+    disabled:opacity-25 transition;
+}
+
+.update-button {
+    @apply inline-flex items-center px-4 py-2 mb-4 bg-blue-600 border
+    rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-800
+    active:bg-blue-900 focus:outline-none focus:border-blue-900 focus:ring focus:ring-blue-300
+    disabled:opacity-25 transition;
+}
+
+.cancel-button {
+    @apply inline-flex items-center px-4 py-2 mb-4 border border-gray-800
+    rounded-md font-semibold text-xs text-gray-800 uppercase tracking-widest hover:bg-gray-50
+     active:bg-gray-700 active:text-gray-50 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300
+    disabled:opacity-25 transition;
+}
+
+.icon-button {
+    @apply inline-block px-6 pt-2.5 pb-2 bg-blue-600 text-white font-medium text-xs leading-normal uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex;
+}
+
+.form-modal {
+    opacity: 0.9999;
+    z-index: 1000;
+    max-height: 320px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+/* END FORMS */

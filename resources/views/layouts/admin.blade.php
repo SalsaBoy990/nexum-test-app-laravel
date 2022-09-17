@@ -14,16 +14,17 @@
         rel="stylesheet" />
 
     <!-- Styles -->
-    @vite(['resources/css/app.css'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer>
     </script>
+    <script src="/build/assets/focus-trap.js"></script>
     <script src="/build/assets/init-alpine.js"></script>
 </head>
 
-<body class="sans-serif" style="display: block !important;">
+<body class="sans-serif relative" style="display: block !important;">
     <x-jet-banner />
     <div class="flex h-screen bg-gray-100 dark:bg-gray-900"
         :class="{ 'overflow-hidden': isSideMenuOpen }">
@@ -55,6 +56,7 @@
     @stack('modals')
 
     @livewireScripts
+
 </body>
 
 </html>
