@@ -18,13 +18,13 @@ class CategorySeeder extends Seeder
         Category::factory(3)
             ->create()
             ->each(function ($category) {
-                Category::factory(rand(1, 4))->create(
+                Category::factory(rand(1, 3))->create(
                     [
                         'category_id' => $category->id,
                     ]
                 )
             ->each(function ($subcategory) {
-                Category::factory(rand(2, 7))->create(
+                Category::factory(rand(1, 3))->create(
                     [
                         'category_id' => $subcategory->id,
                     ]

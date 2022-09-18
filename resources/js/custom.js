@@ -3,8 +3,8 @@ let i;
 
 for (i = 0; i < toggler.length; i++) {
     toggler[i].addEventListener("click", function () {
-        this.parentElement.parentElement.querySelector(".nested").classList.toggle("active");
+        this.parentElement.parentElement.parentElement.querySelector(".nested").classList.toggle("active");
         this.classList.toggle("caret-down");
-        this.parentElement.classList.toggle("active-list-item");
+        this.parentElement.parentElement.classList.toggle("active-list-item");
     });
 }

@@ -27,6 +27,7 @@ class CategoryFactory extends Factory
         return [
             'name' => $this->faker->words(4, true),
             'category_id' => null,
+            'user_id' => 1, // our only user
         ];
     }
 }

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\admin;
 
 use Illuminate\View\Component;
 
-class ChildCategoryList extends Component
+class DocumentsTable extends Component
 {
-
-    public $childCategory;
+    public $documents;
     public $selectedCategory;
 
     /**
@@ -15,9 +14,9 @@ class ChildCategoryList extends Component
      *
      * @return void
      */
-    public function __construct($childCategory, $selectedCategory)
+    public function __construct($documents, $selectedCategory)
     {
-        $this->childCategory = $childCategory;
+        $this->documents = $documents;
         $this->selectedCategory = $selectedCategory;
     }
 
@@ -28,6 +27,6 @@ class ChildCategoryList extends Component
      */
     public function render()
     {
-        return view('components.child-category-list');
+        return view('components.admin.documents-table');
     }
 }

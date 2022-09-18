@@ -1,10 +1,20 @@
 <li class="pl-6 w-full">
-    <span class="flex flex-row gap-x-1 pl-6 py-4 font-medium items-center">
-        <span class="caret"></span>
-        {{ $childCategory->name }}
-        <small class="px-2 text-gray-500">id = {{ $childCategory->id }}</small>
+    <span
+        class="flex flex-row gap-x-1 pl-6 py-4 justify-between font-normal items-center {{ $selectedCategory->id === $childCategory->id ? 'active-category' : '' }}">
+        
+        <div class="flex items-center">
+            @if (count($childCategory->categories) > 0)
+            <span class="caret caret-down"></span>
+            @endif
 
-        <div class="flex flex-row items-center gap-x-2">
+            <div>
+                <a href="{{ route('category.selected', $childCategory->id)}}">
+                    {{ $childCategory->name }}
+                </a>
+            </div>
+            <small class="px-2 text-gray-500">id = {{ $childCategory->id }}</small>
+        </div>
+        <div class="flex flex-row items-center gap-x-2 mr-4">
             <div x-data="{ modalOpen: false }">
                 <button class="edit-button" @click="modalOpen = true" title="Szerkeszt">
                     <x-icon.edit></x-icon.edit>
@@ -17,7 +27,8 @@
                         @method("PUT")
                         @csrf
 
-                        <input type="text" class="input-control" name="name" value="{{ old('name') ?? $childCategory->name }}">
+                        <input type="text" class="input-control" name="name"
+                            value="{{ old('name') ?? $childCategory->name }}">
 
                         <x-jet-button type="submit" class="update-button">{{ __("Mentés") }}
                         </x-jet-button>
@@ -45,17 +56,10 @@
                     </form>
                 </x-admin.modal>
             </div>
-        </div>
-    </span>
-    @if ($childCategory->categories)
-    <ul class="pl-6 w-full nested">
-        @foreach ($childCategory->categories as $childCategory)
-        <x-child-category-list :childCategory="$childCategory"></x-child-category-list>
-        @endforeach
-        <li class="pl-6 mt-4">
+
             <div x-data="{ modalOpen: false }">
-                <button @click="modalOpen = true" class="icon-button">
-                    <x-icon.add></x-icon.add>Új
+                <button @click="modalOpen = true" class="icon-button px-2" title="Új kategória">
+                    <x-icon.add></x-icon.add>
                 </button>
                 <x-admin.modal :title="'Alkategória hozzáadása'">
                     <form action="{{ route('category.store') }}" method="post"
@@ -73,7 +77,63 @@
                     </form>
                 </x-admin.modal>
             </div>
-        </li>
+
+            <div x-data="{ modalOpen: false }">
+                <button @click="modalOpen = true" class="upload-button px-2" title="Feltöltés">
+                    <x-icon.upload></x-icon.upload>
+                </button>
+
+                <x-admin.modal :title="'Dokumentum hozzáadása'">
+                    <form action="{{ route('document.store')}}" method="POST"
+                        enctype="multipart/form-data" accept-charset="UTF-8" autocomplete="off"
+                        class="flex flex-col gap-2">
+                        @method("POST")
+                        @csrf
+
+                        <div class="mb-5">
+                            <x-jet-label for="view_name" value="{{ __('Megjelenő név*') }}" />
+                            <x-jet-input id="view_name"
+                                class="block mt-1 bg-gray-50 w-full {{ $errors->has('view_name') ? ' border-rose-400' : '' }}"
+                                type="text" name="view_name" :value="old('view_name')" autofocus />
+                            <x-jet-input-error for="view_name" class="mt-2" />
+                        </div>
+
+                        <input type="number" class="hidden" name="category_id"
+                            value="{{ intval($childCategory->id) }}">
+
+                        <div class="flex flex-col md:flex-row">
+                            <div class="mb-5">
+
+                                <x-jet-label for="file_path" value="{{ __('Fájl feltöltése*') }}" />
+
+                                <div class="mb-3 mt-1 w-96">
+                                    <input
+                                        class="form-control block w-full px-3 py-1.5
+                                        text-sm font-normaltext-gray-700bg-white bg-clip-padding border border-solid 
+                                        {{ $errors->has('file_path') ? ' border-rose-400' : 'border-gray-300' }} 
+                                        rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                                        type="file" id="file_path" name="file_path" autofocus>
+                                </div>
+                                <x-jet-input-error for="file_path" class="mt-2" />
+                            </div>
+                        </div>
+
+                        <button type="submit" class="button">
+                            Hozzáadás
+                        </button>
+                    </form>
+                </x-admin.modal>
+            </div>
+
+        </div>
+    </span>
+
+    <ul class="pl-6 w-full nested active">
+        @if (count($childCategory->categories) > 0)
+        @foreach ($childCategory->categories as $childCategory)
+        <x-child-category-list :childCategory="$childCategory"
+            :selectedCategory="$selectedCategory"></x-child-category-list>
+        @endforeach
+        @endif
     </ul>
-    @endif
 </li>
