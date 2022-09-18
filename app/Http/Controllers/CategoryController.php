@@ -24,8 +24,10 @@ class CategoryController extends Controller
 
         Category::create($data);
 
+        session()->forget('categories');
+
         $this->banner('Új kategória sikeresen hozzáadva.');
-        return redirect()->route('dashboard');
+        return back();
     }
 
     /**
@@ -40,23 +42,10 @@ class CategoryController extends Controller
         $input = $request->all();
         $category->updateOrFail($input);
 
+        session()->forget('categories');
+
         $this->banner('A kategóriát sikeresen módosítottad.');
         return redirect()->route('dashboard');
-    }
-
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\Request  $request
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
-    {
-        return view('admin.category.edit')->with([
-            'category' => $category
-        ]);
     }
 
     /**
@@ -69,8 +58,21 @@ class CategoryController extends Controller
     {
         $oldName = htmlentities($category->name);
         $category->deleteOrFail();
+
+        session()->forget('categories');
     
         $this->banner('"' . $oldName . '"' . ' sikeresen törölve!');
         return redirect()->route('dashboard');
+    }
+
+
+    public function getSelected(Category $category)
+    {
+        $documentsOfSelectedCategory = $category->documents()->get();
+
+        return redirect()->route('dashboard')->with([
+            'selectedCategory' => $category,
+            'documents' => $documentsOfSelectedCategory,
+        ]);
     }
 }

@@ -28,7 +28,6 @@
     <x-jet-banner />
     <div class="flex h-screen bg-gray-100 dark:bg-gray-900"
         :class="{ 'overflow-hidden': isSideMenuOpen }">
-        <x-admin.desktop-sidebar></x-admin.desktop-sidebar>
         <!-- Mobile sidebar TODO: component -->
         <!-- Backdrop -->
         <div x-show="isSideMenuOpen" x-transition:enter="transition ease-in-out duration-150"

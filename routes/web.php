@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DocumentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,8 +28,17 @@ Route::group(
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         
         Route::post('category', [CategoryController::class, 'store'])->name('category.store');
-        Route::get('category/{category}', [CategoryController::class, 'edit'])->name('category.edit');
+        Route::get(
+        'category/{category}', [CategoryController::class, 'edit'])->name('category.edit');
         Route::put('category/{category}', [CategoryController::class, 'update'])->name('category.update');
         Route::delete('category/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
+        Route::get('category/selected/{category}', [CategoryController::class, 'getSelected'])->name('category.selected');
+
+        
+
+        Route::post('document', [DocumentController::class, 'store'])->name('document.store');
+        Route::put('document/{document}', [DocumentController::class, 'update'])->name('document.update');
+        Route::delete('document/{document}', [DocumentController::class, 'destroy'])->name('document.destroy');
+
     }
 );

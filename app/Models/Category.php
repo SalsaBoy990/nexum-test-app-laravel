@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Casts\HtmlSpecialCharsCast;
+use App\Models\Document;
 
 class Category extends Model
 {
@@ -33,6 +34,11 @@ class Category extends Model
     public function categories()
     {
         return $this->hasMany(Category::class);
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
     }
 
     //

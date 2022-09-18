@@ -14,9 +14,6 @@
     margin-right: 6px;
 }
 
-.caret-down {
-    @apply bg-gray-300;
-}
 .active-list-item {
     @apply bg-gray-300;
 }
@@ -32,7 +29,7 @@
 }
 /* show the nested list */
 .active {
-    display: block;
+    display: block !important;
 }
 /* DROPDOWN */
 
@@ -55,7 +52,7 @@
 }
 
 .button {
-    @apply inline-block px-2 py-2 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out;
+    @apply inline-block px-2 py-2 bg-blue-600 text-white font-semibold text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out;
 }
 
 .edit-button {
@@ -66,7 +63,7 @@
 }
 
 .update-button {
-    @apply inline-flex items-center px-4 py-2 mb-4 bg-blue-600 border
+    @apply inline-flex items-center px-4 py-2 mb-4 bg-blue-600 border text-center
     rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-800
     active:bg-blue-900 focus:outline-none focus:border-blue-900 focus:ring focus:ring-blue-300
     disabled:opacity-25 transition;
@@ -80,14 +77,26 @@
 }
 
 .icon-button {
-    @apply inline-block px-6 pt-2.5 pb-2 bg-blue-600 text-white font-medium text-xs leading-normal uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex;
+    @apply inline-block px-2 pt-2.5 pb-2 bg-blue-600 text-white font-semibold text-xs leading-normal uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex;
+}
+
+.upload-button {
+    @apply inline-block px-2 pt-2.5 pb-2 bg-green-600 text-white font-semibold text-xs leading-normal uppercase rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out flex;
 }
 
 .form-modal {
     opacity: 0.9999;
     z-index: 1000;
-    max-height: 320px;
+    min-height: 320px;
     left: 50%;
     transform: translateX(-50%);
 }
 /* END FORMS */
+
+.z-100 {
+    z-index: 100;
+}
+
+.active-category {
+    @apply border border-2 border-gray-500 bg-blue-200;
+}
