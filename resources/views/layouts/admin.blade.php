@@ -20,8 +20,8 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer>
     </script>
-    <script src="/build/assets/focus-trap.js"></script>
-    <script src="/build/assets/init-alpine.js"></script>
+    <script src="/storage/theme/focus-trap.js"></script>
+    <script src="/storage/theme/init-alpine.js"></script>
 </head>
 
 <body class="sans-serif relative" style="display: block !important;">
