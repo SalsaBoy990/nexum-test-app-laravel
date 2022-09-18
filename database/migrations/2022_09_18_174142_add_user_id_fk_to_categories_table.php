@@ -13,15 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('category_id')->nullable();
-            $table->string('name');
-            $table->timestamps();
-
+        Schema::table('categories', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id')->after('category_id');
             $table
-                ->foreign('category_id')
-                ->references('id')->on('categories')
+                ->foreign('user_id')
+                ->references('id')->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
@@ -34,6 +30,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::table('categories', function (Blueprint $table) {
+            $table->dropConstrainedForeignId('user_id');
+        });
     }
 };

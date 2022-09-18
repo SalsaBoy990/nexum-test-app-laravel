@@ -22,7 +22,7 @@ class DocumentSeeder extends Seeder
                     'view_name' => 'Ez egy kutya.',
                     'file_path' => 'public/uploads/123-kutya.jpg',
                     'version' => '1.0',
-                    'user_id' => null,
+                    'user_id' => 1,
                     'category_id' => 1
                   
                 ]
@@ -33,8 +33,8 @@ class DocumentSeeder extends Seeder
                     'view_name' => 'Ez egy macska.',
                     'file_path' => 'public/uploads/123-macska.jpg',
                     'version' => '1.0',
-                    'user_id' => null,
-                    'category_id' => 6
+                    'user_id' => 1,
+                    'category_id' => 1
                 ]
             ),
             new Document(
@@ -43,8 +43,8 @@ class DocumentSeeder extends Seeder
                     'view_name' => 'Ez egy kecske.',
                     'file_path' => 'public/uploads/123-kecske.jpg',
                     'version' => '1.0',
-                    'user_id' => null,
-                    'category_id' => 16
+                    'user_id' => 1,
+                    'category_id' => 1
                 ]
             ),
             new Document(
@@ -53,8 +53,8 @@ class DocumentSeeder extends Seeder
                     'view_name' => 'Ez egy teve.',
                     'file_path' => 'public/uploads/123-teve.jpg',
                     'version' => '1.0',
-                    'user_id' => null,
-                    'category_id' => 4
+                    'user_id' => 1,
+                    'category_id' => 2
                 ]
             ),
         

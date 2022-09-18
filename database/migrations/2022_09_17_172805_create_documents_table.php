@@ -15,12 +15,13 @@ return new class extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('category_id')->nullable();
+            
             $table->string('original_filename');
             $table->string('view_name');
             $table->string('file_path');
             $table->string('version')->default('1.0');
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('category_id')->nullable();
             $table->timestamps();
 
             $table
