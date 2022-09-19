@@ -18,7 +18,20 @@ composer update
 2. MySQL adatbázis létrehozása és az **`.env`** fájlban a `DB_DATABASE`, a `DB_USERNAME` és a `DB_PASSWORD` változók megadása
 
 
-3. A migrációk és a seeder-ek lefuttatása
+3. Szimbolikus link létrehozása a storage és a public mappa között:*
+
+```bash
+php artisan storage:link
+```
+
+A `TEMP/uploads` mappát bele kell másolni a `storage/app/public/` mappába.
+
+Elképzelhető, hogy ha nem működik, akkor közvetlenül a `public/storage` mappába kell másolni ezt a mappát.
+Ezek a fájlok kellenek a teszteléshez.
+
+
+4. A migrációk és a seeder-ek lefuttatása
+
 
 A `database/seeders/DatabaseSeeder.php` fájlban meg kell adni a létrehozandó felhasználó adatait (name, email, password). Vagy meg is lehet hagyni az alapértelmezett értékeket.
 
@@ -26,13 +39,11 @@ A `database/seeders/DatabaseSeeder.php` fájlban meg kell adni a létrehozandó 
 php artisan migrate:fresh --seed
 ```
 
-4. Szimbolikus link létrehozása a storage és a public mappa között:*
 
-```bash
-php artisan storage:link
-```
 
 A `storage/app/public/` mappába szükséges létrehozni egy `theme` mappát, és ide bele kell másolni a `focus-trap.js` és az `init-alpine.js` fájlokat. Ezek most a `/TEMP` mappában vannak!
+
+Elképzelhető, hogy ha nem működik, akkor közvetlenül a `public/storage` mappába kell másolni ezeket a fájlokat.
 
 
 4. Devszerver indítása:

@@ -18,9 +18,9 @@ class DocumentSeeder extends Seeder
         $documents = [
             new Document(
                 [
-                    'original_filename' => 'kutya.jpg',
-                    'view_name' => 'Ez egy kutya.',
-                    'file_path' => 'public/uploads/123-kutya.jpg',
+                    'original_filename' => 'dummy.pdf',
+                    'view_name' => 'Tesztdokumentum.',
+                    'file_path' => 'public/uploads/123-dummy.pdf',
                     'version' => '1.0',
                     'user_id' => 1,
                     'category_id' => 1
@@ -29,9 +29,9 @@ class DocumentSeeder extends Seeder
             ),
             new Document(
                 [
-                    'original_filename' => 'macska.jpg',
-                    'view_name' => 'Ez egy macska.',
-                    'file_path' => 'public/uploads/123-macska.jpg',
+                    'original_filename' => 'sample-pdf-file.pdf',
+                    'view_name' => 'Még egy teszt.',
+                    'file_path' => 'public/uploads/123-sample-pdf-file.pdf',
                     'version' => '1.0',
                     'user_id' => 1,
                     'category_id' => 1
