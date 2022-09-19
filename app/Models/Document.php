@@ -83,7 +83,7 @@ class Document extends Model
 
 
     /**
-     * Get the user that owns the Document
+     * Category belongs to category
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -92,6 +92,9 @@ class Document extends Model
         return $this->belongsTo(Category::class);
     }
 
+
+    // TODO: make a version handling system
+    // this method will be useful to incrementing version number
     public static function incrementVersion(string $oldVersion): string
     {
         if ($oldVersion) {
@@ -105,4 +108,33 @@ class Document extends Model
         return '';
     }
 
+
+    /**
+     * Handle file upload
+     * 
+     * @param mixed $file
+     * @param array $data
+     * 
+     * @return bool
+     */
+    public static function uploadFile($file, &$data): bool
+    {
+        if ($file !== null) {
+            if ($file->isValid()) {
+                $data['original_filename'] = $file->getClientOriginalName();
+                $fileName = time() . '-' . $data['original_filename'];
+
+                $filePath = $file->storeAs('public/uploads', $fileName);
+                if (!$filePath) {
+                    return false;
+                }
+                $data['file_path'] = $filePath;
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 }

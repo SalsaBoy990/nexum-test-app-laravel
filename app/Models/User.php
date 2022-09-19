@@ -58,4 +58,26 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+
+    /**
+     * User has many categories
+     * this will be used for authorization
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
+    }
+
+    /**
+     * Name of the permissions
+     * 
+     * @var array
+     */
+    public const PERMISSIONS = [
+        'upload' => 'upload',
+        'download' => 'download'
+    ];
 }

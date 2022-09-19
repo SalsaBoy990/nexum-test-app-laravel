@@ -25,9 +25,8 @@ class UpdateDocumentRequest extends FormRequest
     {
         return [
             //'original_filename'
-            'view_name' => ['required', 'max:255'],
+            'view_name' => ['required', 'max:255', 'string'],
             'file_path' => ['nullable', 'mimes:png,jpg,jpeg,pdf,doc,docx,xls,txt,odt,ppt', 'max:1024'],
-            //'file_path',
             // 'version',
             // 'user_id',
             'category_id' => ['required', 'integer'],
