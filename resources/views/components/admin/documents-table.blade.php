@@ -28,12 +28,14 @@
                 <td class="py-4 px-2">
 
                     @can('authorize_download_from_category', $selectedCategory)
-                    <h3 class="text-base font-semibold font-exo">
-                        <a href="{{ $document->file_link }}" download>{{ $document->view_name }}</a>
+                    <h3 class="text-base font-semibold font-exo underline">
+                        <a href="{{ $document->file_link }}" download class="flex">
+                           <x-icon.download></x-icon.download> 
+                            {{ $document->view_name }}</a>
                     </h3>
                         @if($document->file_link)
-                        <img src="{{ $document->file_link }}" class="p-1 bg-white border rounded w-20"
-                            alt="{{ $document->view_name }}" />
+                        <!--<img src="{{ $document->file_link }}" class="p-1 bg-white border rounded w-20"
+                            alt="{{ $document->view_name }}" />-->
                         @endif
                     @else
                     <h3 class="text-base font-semibold font-exo">
