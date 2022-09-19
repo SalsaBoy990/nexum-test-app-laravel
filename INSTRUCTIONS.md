@@ -26,7 +26,7 @@ A `database/seeders/DatabaseSeeder.php` fájlban meg kell adni a létrehozandó 
 php artisan migrate:fresh --seed
 ```
 
-4. Szimbolikus link létrehozása a storage és a public mappa között:
+4. Szimbolikus link létrehozása a storage és a public mappa között:*
 
 ```bash
 php artisan storage:link
@@ -56,6 +56,28 @@ npm run dev
 Az admin oldal elérése: http://localhost:8000/admin/dashboard
 
 (De természetesen a bejelentkezés után átirányít ide a rendszer.)
+
+### * Osztott tárhelyre történő deploy esetén az artisan nem használható
+
+A szimbolikus link létrehozása osztott tárhelynél. A `routes/web.php`-ba:
+
+```php
+   Route::get('/symlink', function () {
+        //Artisan::call('storage:link');
+
+        // https://dumpcoder.com/symlink-laravel-storage-folder-on-shared-hosting/
+
+        // In the example, the webroot is in the public folder
+        // However, it is best to put the laravel framework into a separate folder (outside of the webroot)
+        // so change the path if needed!
+        $documentRoot = str_replace('public/', '', $_SERVER['DOCUMENT_ROOT']);
+        $target = $documentRoot . 'storage/app/public';
+        $link = $documentRoot . 'public/storage';
+
+        symlink($target, $link);
+        echo "Done";
+    });
+```
 
 
 ## A projektről
