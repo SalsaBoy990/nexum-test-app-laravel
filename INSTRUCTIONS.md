@@ -1,6 +1,10 @@
-# Nexum Dokumentumkezelő app
+# Nexum Dokumentumkezelő app v1.0.0
 
 GitHub repo: https://github.com/SalsaBoy990/nexum-test-app-laravel
+
+**A master ágat használd!**
+
+zip fájl: https://github.com/SalsaBoy990/nexum-test-app-laravel/archive/refs/heads/master.zip
 
 
 ## A projekt belövése
