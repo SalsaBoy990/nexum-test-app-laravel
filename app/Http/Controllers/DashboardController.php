@@ -46,7 +46,6 @@ class DashboardController extends Controller
         }
 
         return view('admin.dashboard')->with([
-            'user' => User::find(auth()->user()->id),
             'categories' => $categories,
             'documents' => $documents,
             'selectedCategory' => $selectedCategory,
