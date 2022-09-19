@@ -44,11 +44,11 @@ Route::group(
 
 
         /* Set permissions */
+        Route::get('/category/user/{user}/root', [CategoryUserController::class, 'toggleCategoryRootUploadPermission'])->name('permission.root.upload.toggle');
         Route::get('/category/{category}/user/{user}', [CategoryUserController::class, 'getPermission'])->name('permission.get');
         Route::get('/category/{category}/user/{user}/download', [CategoryUserController::class, 'attachDownloadPermission'])->name('permission.download.attach');
         Route::get('/category/{category}/user/{user}/upload', [CategoryUserController::class, 'attachUploadPermission'])->name('permission.upload.attach');
         Route::get('/category/{category}/user/{user}/dowload/detach', [CategoryUserController::class, 'detachDownloadPermission'])->name('permission.download.detach');
         Route::get('/category/{category}/user/{user}/upload/detach', [CategoryUserController::class, 'detachUploadPermission'])->name('permission.upload.detach');
-       
     }
 );

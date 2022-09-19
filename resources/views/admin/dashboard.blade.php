@@ -250,6 +250,39 @@
                         </li>
                         @endforeach
                         <li class="pl-6 mt-4">
+                            <div class="mb-2">
+
+                                @can('authorize_upload_to_root')
+                                <form
+                                    action="{{ route('permission.root.upload.toggle', [ 'user' => auth()->user()->id ])}}">
+                                    @method('get')
+                                    @csrf
+
+                                    <label for="" class="text-sm">
+                                        <input type="checkbox" name="" id=""
+                                            class="inactive-checkbox checked" disabled checked>
+                                        Feltöltés a gyökérbe
+                                    </label>
+
+                                    <button class="text-sm button ml-1">
+                                        Tiltás
+                                    </button>
+                                </form>
+                                @else
+                                <form
+                                    action="{{ route('permission.root.upload.toggle', [ 'user' => auth()->user()->id ])}}">
+                                    @method('get')
+                                    @csrf
+                                    <label for="" class="text-sm">
+                                        <input type="checkbox" name="" id=""
+                                            class="inactive-checkbox" disabled>
+                                        Feltöltés a gyökérbe
+                                    </label>
+                                    <button class="text-sm button ml-1">Enged</button>
+                                </form>
+                                @endcan
+
+                            </div>
                             <div x-data="{ modalOpen: false }">
                                 <button @click="modalOpen = true" class="icon-button">
                                     <x-icon.add></x-icon.add>Új kategória

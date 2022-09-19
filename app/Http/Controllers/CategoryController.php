@@ -21,13 +21,20 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request, Category $category)
     {
-        if (Gate::denies('authorize_upload_to_category', $category)) {
+        if (!$category->id) {
+            if (Gate::denies('authorize_upload_to_root')) {
+                $this->banner('Nincs feltöltési jogod a kategóriák gyökerébe.', 'danger');
+                return redirect()->route('dashboard');
+            }
+        }
+        else if (Gate::denies('authorize_upload_to_category', $category)) {
             $this->banner('Nincs feltöltési jogod a kategóriához.', 'danger');
             return redirect()->route('dashboard');
         }
 
         $data = $request->all();
         $data['category_id'] = empty($data['category_id']) ? null : intval($data['category_id']);
+        $data['user_id'] = auth()->user()->id;
 
         Category::create($data);
 
@@ -47,6 +54,12 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
+        if (!$category->id) {
+            if (Gate::denies('authorize_upload_to_root')) {
+                $this->banner('Nincs feltöltési jogod a kategóriák gyökerébe.', 'danger');
+                return redirect()->route('dashboard');
+            }
+        }
         if (Gate::denies('authorize_upload_to_category', $category)) {
             $this->banner('Nincs feltöltési jogod a kategóriához.', 'danger');
             return redirect()->route('dashboard');

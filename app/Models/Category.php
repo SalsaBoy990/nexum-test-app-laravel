@@ -19,7 +19,8 @@ class Category extends Model
      */
     protected $fillable = [
         'name',
-        'category_id'
+        'category_id',
+        'user_id',
     ];
 
     /**

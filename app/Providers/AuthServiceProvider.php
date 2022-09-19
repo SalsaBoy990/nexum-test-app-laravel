@@ -36,6 +36,16 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('authorize_download_from_category', function ($user, $category) {
             return !$this->checkPermission($user, $category, User::PERMISSIONS['download']);
         });
+
+        Gate::define('authorize_upload_to_root', function ($user) {
+            $permissions = $user->permissions;
+            //dd(!$permissions);
+            if (!$permissions) {
+                return false;
+            }
+            return in_array(User::PERMISSIONS['upload_root'], $permissions);
+            return array_search(User::PERMISSIONS['upload_root'], $permissions) !== false;
+        });
     }
 
 

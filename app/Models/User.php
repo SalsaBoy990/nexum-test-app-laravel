@@ -27,6 +27,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'permissions',
     ];
 
     /**
@@ -48,6 +49,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'permissions' => 'array'
     ];
 
     /**
@@ -78,6 +80,7 @@ class User extends Authenticatable
      */
     public const PERMISSIONS = [
         'upload' => 'upload',
-        'download' => 'download'
+        'download' => 'download',
+        'upload_root' => 'upload_root'
     ];
 }

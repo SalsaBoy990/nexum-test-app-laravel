@@ -76,4 +76,44 @@ class CategoryUserController extends Controller
         }
         return redirect()->route('dashboard');
     }
+
+
+    /**
+     * Turn on/off upload permission for the root of the categories
+     * 
+     * @param User $user
+     * 
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     */
+    public function toggleCategoryRootUploadPermission(User $user)
+    {
+        $permissions = $user->permissions;
+
+        if ($permissions) {
+            // it can contain other permissions as well (for future usage), so make sure to have the
+            // permission in the array
+            if (array_search(User::PERMISSIONS['upload_root'], $permissions) === false) {
+                array_push($permissions, User::PERMISSIONS['upload_root']);
+                $user->update([
+                    'permissions' => $permissions
+                ]);
+            } else {
+                // already there, so it needs to be removed
+                $permissionId = array_search(User::PERMISSIONS['upload_root'], $permissions);
+                unset($permissions[$permissionId]);
+
+                $user->update([
+                    'permissions' => count($permissions) === 0 ? null : $permissions,
+                ]);
+                $this->banner('Feltöltési jogosultság a gyökérhez eltávolítva.');
+                return redirect()->route('dashboard');
+            }
+        } else {
+            $user->update([
+                'permissions' => ['upload_root']
+            ]);
+        }
+        $this->banner('Feltöltési jogosultság a gyökérhez hozzáadva.');
+        return redirect()->route('dashboard');
+    }
 }

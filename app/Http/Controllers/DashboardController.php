@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\User;
 use App\Support\InteractsWithBanner;
 use Illuminate\Support\Facades\Session;
 
@@ -45,6 +46,7 @@ class DashboardController extends Controller
         }
 
         return view('admin.dashboard')->with([
+            'user' => User::find(auth()->user()->id),
             'categories' => $categories,
             'documents' => $documents,
             'selectedCategory' => $selectedCategory,
