@@ -39,7 +39,6 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('authorize_upload_to_root', function ($user) {
             $permissions = $user->permissions;
-            //dd(!$permissions);
             if (!$permissions) {
                 return false;
             }
