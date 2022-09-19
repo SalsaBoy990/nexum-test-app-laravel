@@ -27,14 +27,22 @@
                 </td>
                 <td class="py-4 px-2">
 
+                    @can('authorize_download_from_category', $selectedCategory)
                     <h3 class="text-base font-semibold font-exo">
                         <a href="{{ $document->file_link }}" download>{{ $document->view_name }}</a>
                     </h3>
-                    @if($document->file_link)
-                    <img src="{{ $document->file_link }}" class="p-1 bg-white border rounded w-20"
-                        alt="{{ $document->view_name }}" />
-                    @endif
-                    </a>
+                        @if($document->file_link)
+                        <img src="{{ $document->file_link }}" class="p-1 bg-white border rounded w-20"
+                            alt="{{ $document->view_name }}" />
+                        @endif
+                    @else
+                    <h3 class="text-base font-semibold font-exo">
+                        {{ $document->view_name }}
+                    </h3>
+                    <div>Nincs letöltési jogod a kategóriához!</div>
+                    @endcan
+
+
                 </td>
 
                 <td class="py-4 px-2">
@@ -79,7 +87,8 @@
                                         <div class="mb-5">
 
                                             <div class="mb-2">
-                                                Feltöltött fájl:<br> <b>{{ $document->file_link }}</b>
+                                                Feltöltött fájl:<br>
+                                                <b>{{ $document->file_link }}</b>
                                             </div>
 
                                             <x-jet-label for="file_path"
@@ -101,7 +110,7 @@
                                     </div>
 
                                     <button type="submit" class="button">
-                                        Hozzáadás
+                                        Mentés
                                     </button>
 
                                 </form>

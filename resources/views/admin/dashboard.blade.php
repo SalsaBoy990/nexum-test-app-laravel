@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="pt-6 pb-12">
-        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 my-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 my-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
 
                 <section>
@@ -17,14 +17,14 @@
                         @foreach ($categories as $category)
                         <li class="bg-gray-100 inline-block w-full pb-1">
                             <span
-                                class="flex flex-row gap-x-1 pl-6 py-4 font-bold justify-between items-center {{ $selectedCategory->id === $category->id ? 'active-category' : '' }}">
+                                class="flex flex-row gap-x-1 pl-6 py-4 font-bold justify-between border-b border-t border-gray-200 items-center {{ $selectedCategory->id === $category->id ? 'active-category' : '' }}">
                                 <div class="flex align-center">
                                     @if (count($category->categories) > 0)
                                     <span class="caret caret-down"></span>
                                     @endif
                                     <h2>
                                         <a href="{{ route('category.selected', $category->id)}}">
-                                        {{ $category->name }}
+                                            {{ $category->name }}
                                         </a>
                                     </h2>
                                     <small class="px-2 text-gray-500">id =
@@ -112,7 +112,8 @@
                                         </button>
 
                                         <x-admin.modal :title="'Dokumentum hozzáadása'">
-                                            <form action="{{ route('document.store')}}"
+                                            <form
+                                                action="{{ route('document.store', $category->id)}}"
                                                 method="POST" enctype="multipart/form-data"
                                                 accept-charset="UTF-8" autocomplete="off"
                                                 class="flex flex-col gap-2">
@@ -164,6 +165,78 @@
                                         </x-admin.modal>
                                     </div>
 
+                                    <div class="ml-4 flex flex-row gap-x-4">
+                                        @can('authorize_upload_to_category', $category)
+                                        <form
+                                            action="{{ route('permission.upload.detach', ['category' => $category->id, 'user' => auth()->user()->id ])}}">
+                                            @method('get')
+                                            @csrf
+
+                                            <label for="" class="text-sm">
+                                                <input type="checkbox" name="" id=""
+                                                    class="inactive-checkbox checked" checked
+                                                    disabled>
+                                                Feltöltés
+                                            </label>
+                                            <button class="text-sm button ml-1">
+                                                Tiltás
+                                            </button>
+                                        </form>
+
+                                        @else
+
+                                        <form
+                                            action="{{ route('permission.upload.attach', ['category' => $category->id, 'user' => auth()->user()->id ])}}">
+                                            @method('get')
+                                            @csrf
+
+                                            <label for="" class="text-sm">
+                                                <input type="checkbox" name="" id=""
+                                                    class="inactive-checkbox" disabled>
+                                                Feltöltés
+                                            </label>
+
+                                            <button class="text-sm button ml-1">
+                                                Enged
+                                            </button>
+                                        </form>
+
+                                        @endcan
+
+                                        @can('authorize_download_from_category', $category)
+
+                                        <form
+                                            action="{{ route('permission.download.detach', ['category' => $category->id, 'user' => auth()->user()->id ])}}">
+                                            @method('get')
+                                            @csrf
+
+                                            <label for="" class="text-sm">
+                                                <input type="checkbox" name="" id=""
+                                                    class="inactive-checkbox checked" disabled
+                                                    checked>
+                                                Letöltés
+                                            </label>
+
+                                            <button class="text-sm button ml-1">
+                                                Tiltás
+                                            </button>
+                                        </form>
+                                        @else
+                                        <form
+                                            action="{{ route('permission.download.attach', ['category' => $category->id, 'user' => auth()->user()->id ])}}">
+                                            @method('get')
+                                            @csrf
+                                            <label for="" class="text-sm">
+                                                <input type="checkbox" name="" id=""
+                                                    class="inactive-checkbox" disabled>
+                                                Letöltés
+                                            </label>
+                                            <button class="text-sm button ml-1">Enged</button>
+                                        </form>
+                                        @endcan
+
+                                    </div>
+
                                 </div>
                             </span>
 
@@ -179,7 +252,7 @@
                         <li class="pl-6 mt-4">
                             <div x-data="{ modalOpen: false }">
                                 <button @click="modalOpen = true" class="icon-button">
-                                    <x-icon.add></x-icon.add>Új
+                                    <x-icon.add></x-icon.add>Új kategória
                                 </button>
 
                                 <x-admin.modal :title="'Kategória hozzáadása'">
