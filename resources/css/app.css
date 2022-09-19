@@ -100,3 +100,11 @@
 .active-category {
     @apply border border-2 border-gray-500 bg-blue-200;
 }
+
+.inactive-checkbox {
+    @apply appearance-none h-3.5 w-3.5 border border-gray-300 rounded-sm bg-white hover:bg-inherit checked:bg-gray-500 checked:border-gray-500 focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain mr-1;
+    margin-top: 0.4rem;
+}
+input.inactive-checkbox.checked[type='checkbox']:checked:hover {
+    @apply bg-gray-500;
+}

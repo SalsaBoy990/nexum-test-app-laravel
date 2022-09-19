@@ -2,29 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Category;
-use App\Models\Document;
+use App\Models\User;
 use App\Support\InteractsWithBanner;
 use Illuminate\Support\Facades\Session;
+
 
 class DashboardController extends Controller
 {
     use InteractsWithBanner;
 
+    /**
+     * Admin dashboard page
+     * 
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        
+
         if (!session()->exists('categories')) {
 
-            // TODO: Find a better solution for fewer number of queries
+            // TODO: Find a better solution for fewer number of queries if possible
             $categories = Category::whereNull('category_id')
                 ->with(['childrenCategories'])
                 ->get();
 
             // The categories are stored in the session to have fewer queries
             // Only when creating, updating and deleting categories is the session deleted,
-            // and the queries rerun
+            // and the queries then re-run
             session(['categories' => $categories]);
         } else {
             $categories = Session::get('categories');
