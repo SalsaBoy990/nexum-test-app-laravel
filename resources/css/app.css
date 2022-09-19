@@ -1,3 +1,110 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* DROPDOWN */
+.caret {
+    cursor: pointer;
+    user-select: none;
+}
+.caret::before {
+    content: "\25B6";
+    color: black;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.active-list-item {
+    @apply bg-gray-300;
+}
+
+/* rotate the arrow icon */
+.caret-down::before {
+    transform: rotate(90deg);
+}
+
+/* hide the nested ul */
+.nested {
+    display: none;
+}
+/* show the nested list */
+.active {
+    display: block !important;
+}
+/* DROPDOWN */
+
+/* FORMS */
+.input-control {
+    @apply block
+        px-3
+        py-1.5
+        text-base
+        font-normal
+        text-gray-700
+        bg-white bg-clip-padding
+        border border-solid border-gray-300
+        rounded
+        transition
+        ease-in-out
+        m-0
+        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none;
+    height: 36px;
+}
+
+.button {
+    @apply inline-block px-2 py-2 bg-blue-600 text-white font-semibold text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out;
+}
+
+.edit-button {
+    @apply inline-flex items-center px-2 py-2 bg-gray-500 border
+    rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-900
+    active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300
+    disabled:opacity-25 transition;
+}
+
+.update-button {
+    @apply inline-flex items-center px-4 py-2 mb-4 bg-blue-600 border text-center
+    rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-800
+    active:bg-blue-900 focus:outline-none focus:border-blue-900 focus:ring focus:ring-blue-300
+    disabled:opacity-25 transition;
+}
+
+.cancel-button {
+    @apply inline-flex items-center px-4 py-2 mb-4 border border-gray-800
+    rounded-md font-semibold text-xs text-gray-800 uppercase tracking-widest hover:bg-gray-50
+     active:bg-gray-700 active:text-gray-50 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300
+    disabled:opacity-25 transition;
+}
+
+.icon-button {
+    @apply inline-block px-2 pt-2.5 pb-2 bg-blue-600 text-white font-semibold text-xs leading-normal uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex;
+}
+
+.upload-button {
+    @apply inline-block px-2 pt-2.5 pb-2 bg-green-600 text-white font-semibold text-xs leading-normal uppercase rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out flex;
+}
+
+.form-modal {
+    opacity: 0.9999;
+    z-index: 1000;
+    min-height: 320px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+/* END FORMS */
+
+.z-100 {
+    z-index: 100;
+}
+
+.active-category {
+    @apply border border-2 border-gray-500 bg-blue-200;
+}
+
+.inactive-checkbox {
+    @apply appearance-none h-3.5 w-3.5 border border-gray-300 rounded-sm bg-white hover:bg-inherit checked:bg-gray-500 checked:border-gray-500 focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain mr-1;
+    margin-top: 0.4rem;
+}
+input.inactive-checkbox.checked[type='checkbox']:checked:hover {
+    @apply bg-gray-500;
+}
