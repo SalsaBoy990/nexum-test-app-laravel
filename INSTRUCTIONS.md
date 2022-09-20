@@ -136,3 +136,8 @@ A végeredmény végül **24 óra** lett.
 
 [Screenshot az időmérésemről](https://drive.google.com/file/d/1TAVZoK-SNGw3Ay68VyVCaZOAOaYT4X-j/view?usp=sharing)
 
+
+## Additional NOTES!
+
+Bármelyik kategóriához történő feltöltéshez először engedélyezni kell a hozzáférést a gyökér kategóriához.
+A nyitogatható kategória lista alatt, a "+ Új kategória" gomb felett lehet engedélyezni a feltöltést / új kategória felvitelét. A kategóriáknál pedig egyenként kell állítani a jogosultságokat.
