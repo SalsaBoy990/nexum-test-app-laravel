@@ -32,17 +32,6 @@ class Category extends Model
         'name' => HtmlSpecialCharsCast::class,
     ];
 
-
-    /**
-     * Category has many categories
-     * 
-     * @return @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function categories()
-    {
-        return $this->hasMany(Category::class);
-    }
-
     /**
      * Category has many documents
      * 
@@ -58,7 +47,7 @@ class Category extends Model
      * 
      * @return @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function childrenCategories()
+    public function categories()
     {
         return $this->hasMany(Category::class)->with('categories');
     }

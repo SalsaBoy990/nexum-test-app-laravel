@@ -100,8 +100,6 @@ class DocumentController extends Controller
         $oldName = htmlentities($document->view_name);
         $document->deleteOrFail();
 
-        session()->forget('documents');
-
         $this->banner('"' . $oldName . '"' . ' sikeresen törölve!');
         return redirect()->route('dashboard');
     }

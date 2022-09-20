@@ -38,9 +38,6 @@ class CategoryController extends Controller
 
         Category::create($data);
 
-        // categories needs to be re-queried from the db
-        session()->forget('categories');
-
         $this->banner('Új kategória sikeresen hozzáadva.');
         return redirect()->route('dashboard');
     }
@@ -68,9 +65,6 @@ class CategoryController extends Controller
         $input = $request->all();
         $category->updateOrFail($input);
 
-        // categories needs to be re-queried from the db
-        session()->forget('categories');
-
         $this->banner('A kategóriát sikeresen módosítottad.');
         return redirect()->route('dashboard');
     }
@@ -85,9 +79,6 @@ class CategoryController extends Controller
     {
         $oldName = htmlentities($category->name);
         $category->deleteOrFail();
-
-        // need to re-query categories when deleting one
-        session()->forget('categories');
 
         $this->banner('"' . $oldName . '"' . ' sikeresen törölve!');
         return redirect()->route('dashboard');

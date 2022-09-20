@@ -241,7 +241,7 @@
                             </span>
 
                             <ul class="pl-6 w-full nested active">
-                                @foreach ($category->childrenCategories as $childCategory)
+                                @foreach ($category->categories as $childCategory)
                                 <x-child-category-list :childCategory="$childCategory"
                                     :selectedCategory="$selectedCategory">
                                 </x-child-category-list>
