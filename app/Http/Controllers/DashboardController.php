@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\User;
 use App\Support\InteractsWithBanner;
-use Illuminate\Support\Facades\Session;
 
 
 class DashboardController extends Controller
@@ -20,7 +18,7 @@ class DashboardController extends Controller
     public function index()
     {
         $categories = Category::whereNull('category_id')
-            ->with(['categories'])
+            ->with(['categories', 'users'])
             ->get();
         $selectedCategory = $categories->first();
         $documents = $selectedCategory->documents()->get();

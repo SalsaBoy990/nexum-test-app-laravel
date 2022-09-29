@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -60,26 +60,7 @@ class Category extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(User::class)->withTimestamps();
-    }
-
-
-    /**
-     * Get the permission from the pivot table
-     * 
-     * @param Category $category
-     * @param User $user
-     * 
-     * @return \Illuminate\Database\Eloquent\Model|object|static|null
-     */
-    public static function getPermission(Category $category, User $user)
-    {
-        $attachedRecord = DB::table('category_user')
-        ->where('category_id', $category->id)
-            ->where('user_id', $user->id)
-            ->first();
-
-        return $attachedRecord;
+        return $this->belongsToMany(User::class)->withTimestamps()->withPivot('permissions');
     }
 
 
@@ -90,29 +71,48 @@ class Category extends Model
      * @param mixed $category
      * @param string $permission
      * 
-     * @return [type]
+     * @return bool
      */
-    public static function attachPermission($user, $category, string $permission)
+    public static function attachPermission($user, $category, string $permission): bool
     {
-        $attachedRecord = Category::getPermission($category, $user);
+        $permissions = $user->permissions;
 
-        // if already exits, making sure to update the permissions column if needed
-        if ($attachedRecord) {
-            $oldPermissions = json_decode($attachedRecord->permissions);
+        if ($permissions) {
+            // it can contain other permissions as well (for future usage), so make sure to have the
+            // permission in the array
+            if (!array_key_exists($permission, $permissions)) {
+                $permissions[$permission] = [$category->id];
 
-            if (!in_array($permission, $oldPermissions)) {
-                array_push($oldPermissions, $permission);
-                DB::table('category_user')
-                ->where('category_id', $category->id)
-                    ->where('user_id', $user->id)
-                    ->update(['permissions' => json_encode($oldPermissions)]);
+                $user->update([
+                    'permissions' => $permissions
+                ]);
+            } else {
+                // already there, so it needs to be removed
+                $oldPermissions = $permissions[$permission];
+                $categoryPermissionExists = array_search($category->id, $oldPermissions);
+
+                if ($categoryPermissionExists === false) {
+
+                    $newPermissions = $oldPermissions;
+                    array_push($newPermissions, $category->id);
+
+                    $permissions[$permission] = $newPermissions;
+
+                    $user->update([
+                        'permissions' => $permissions,
+                    ]);
+                } else {
+                    return false;
+                }
             }
-            
         } else {
-            $permissions = [$permission];
-            $category->users()->attach($user->id, ['permissions' => json_encode($permissions)]);
+            $permissions[$permission] = [$category->id];
+            $user->update([
+                'permissions' => $permissions,
+            ]);
         }
-        return;
+
+        return true;
     }
 
 
@@ -126,26 +126,63 @@ class Category extends Model
      * 
      * @return bool
      */
-    public static function detachPermission(User $user, Category $category, $attachedRecord, string $permission): bool {
+    public static function detachPermission(User $user, Category $category, string $permission): bool
+    {
         // if already exits, making sure to delete the appropriate permission
-        if ($attachedRecord) {
-            $permissions = json_decode($attachedRecord->permissions);
+        $permissions = $user->permissions;
 
-            // all permissions should be checked here
-            if (in_array(User::PERMISSIONS['download'], $permissions) && in_array(User::PERMISSIONS['upload'], $permissions)) {
-                unset($permissions[in_array($permission, $permissions)]);
-
-                DB::table('category_user')
-                    ->where('category_id', $category->id)
-                    ->where('user_id', $user->id)
-                    ->update(['permissions' => json_encode($permissions)]);
+        if ($permissions) {
+            // it can contain other permissions as well (for future usage), so make sure to have the
+            // permission in the array
+            if (!array_key_exists($permission, $permissions)) {
+                return false;
             } else {
-                $category->users()->detach($user->id);
+
+                $savedPermissions = $permissions[$permission];
+                $categoryPermissionKey = array_search($category->id, $savedPermissions);
+
+                if ($categoryPermissionKey === false) {
+                    return false;
+                } else {
+                    // delete the category id from the array
+                    unset($savedPermissions[$categoryPermissionKey]);
+
+                    // update the full permissions array
+                    $permissions[$permission] = $savedPermissions;
+
+                    $user->update([
+                        'permissions' => $permissions,
+                    ]);
+                }
             }
-            return true;
         } else {
             return false;
         }
+
+        return true;
     }
 
+    /**
+     * Check if permission exists
+     * 
+     * @param mixed $user
+     * @param mixed $category
+     * @param string $permission
+     * 
+     * @return bool
+     */
+    public static function checkPermission(User $user, Category $category, string $permission): bool
+    {
+        $permissions = $user->permissions;
+        if (!$permissions) {
+            return false;
+        }
+
+        if (array_key_exists($permission, $permissions)) {
+            $savedPermissions = $permissions[$permission];
+
+            return array_search($category->id, $savedPermissions) !== false;
+        }
+        return false;
+    }
 }

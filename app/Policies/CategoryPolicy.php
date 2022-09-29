@@ -11,84 +11,29 @@ class CategoryPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any models.
-     *
-     * @param  \App\Models\User  $user
+     * Determine whether the user can upload to the category.
+     * 
+     * @param User $user
+     * @param Category $category
+     * 
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function authorize_upload_to_category(User $user, Category $category)
     {
-        //
+        return Category::checkPermission($user, $category, User::PERMISSIONS['upload']);
     }
 
     /**
-     * Determine whether the user can view the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Category  $category
+     * Determine whether the user can download from the category.
+     * 
+     * @param User $user
+     * @param Category $category
+     * 
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Category $category)
+    public function authorize_download_from_category(User $user, Category $category)
     {
-        //
+        return Category::checkPermission($user, $category, User::PERMISSIONS['download']);
     }
 
-    /**
-     * Determine whether the user can create models.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function create(User $user)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can update the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function update(User $user, Category $category)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function delete(User $user, Category $category)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function restore(User $user, Category $category)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(User $user, Category $category)
-    {
-        //
-    }
 }

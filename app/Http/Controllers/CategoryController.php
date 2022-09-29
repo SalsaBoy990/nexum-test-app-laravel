@@ -22,7 +22,7 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request, Category $category)
     {
         if (!$category->id) {
-            if (Gate::denies('authorize_upload_to_root')) {
+            if (Gate::denies('authorize_upload_to_root', User::class)) {
                 $this->banner('Nincs feltöltési jogod a kategóriák gyökerébe.', 'danger');
                 return redirect()->route('dashboard');
             }
@@ -52,7 +52,7 @@ class CategoryController extends Controller
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         if (!$category->id) {
-            if (Gate::denies('authorize_upload_to_root')) {
+            if (Gate::denies('authorize_upload_to_root', User::class)) {
                 $this->banner('Nincs feltöltési jogod a kategóriák gyökerébe.', 'danger');
                 return redirect()->route('dashboard');
             }

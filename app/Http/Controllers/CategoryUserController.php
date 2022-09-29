@@ -19,8 +19,14 @@ class CategoryUserController extends Controller
      */
     public function attachDownloadPermission(Category $category, User $user)
     {
-        Category::attachPermission($user, $category, User::PERMISSIONS['download']);
-        $this->banner('Letöltési jogosultság hozzáadva.');
+        $success = Category::attachPermission($user, $category, User::PERMISSIONS['download']);
+
+        if ($success) {
+            $this->banner('Letöltési jogosultság hozzáadva.');
+        } else {
+            $this->banner('Már van a kategóriához letöltési jogosultságod. nem kell újra hozzáadni');
+        }
+
         return redirect()->route('dashboard');
     }
 
@@ -32,8 +38,32 @@ class CategoryUserController extends Controller
      */
     public function attachUploadPermission(Category $category, User $user)
     {
-        Category::attachPermission($user, $category, User::PERMISSIONS['upload']);
-        $this->banner('Feltöltési jogosultság hozzáadva.');
+        $success = Category::attachPermission($user, $category, User::PERMISSIONS['upload']);
+
+        if ($success) {
+            $this->banner('Feltöltési jogosultság hozzáadva.');
+        } else {
+            $this->banner('Már van a kategóriához feltöltési jogosultságod. nem kell újra hozzáadni');
+        }
+
+        return redirect()->route('dashboard');
+    }
+
+    /**
+     * @param Category $category
+     * @param User $user
+     * 
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     */
+    public function detachUploadPermission(Category $category, User $user)
+    {
+        $success = Category::detachPermission($user, $category, User::PERMISSIONS['upload']);
+
+        if ($success) {
+            $this->banner('Feltöltési jogosultság törölve.');
+        } else {
+            $this->banner('A törölni kívánt feltöltési jogosultság nem létezik.', 'danger');
+        }
         return redirect()->route('dashboard');
     }
 
@@ -46,33 +76,11 @@ class CategoryUserController extends Controller
      */
     public function detachDownloadPermission(Category $category, User $user)
     {
-        $attachedRecord = Category::getPermission($category, $user);
-
-        $success = Category::detachPermission($user, $category, $attachedRecord, User::PERMISSIONS['download']);
+        $success = Category::detachPermission($user, $category, User::PERMISSIONS['download']);
         if ($success) {
             $this->banner('Letöltési jogosultság törölve.');
         } else {
             $this->banner('A törölni kívánt letöltési jogosultság nem létezik.', 'danger');
-        }
-        return redirect()->route('dashboard');
-    }
-
-
-    /**
-     * @param Category $category
-     * @param User $user
-     * 
-     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
-     */
-    public function detachUploadPermission(Category $category, User $user)
-    {
-        $attachedRecord = Category::getPermission($category, $user);
-
-        $success = Category::detachPermission($user, $category, $attachedRecord, User::PERMISSIONS['upload']);
-        if ($success) {
-            $this->banner('Feltöltési jogosultság törölve.');
-        } else {
-            $this->banner('A törölni kívánt feltöltési jogosultság nem létezik.', 'danger');
         }
         return redirect()->route('dashboard');
     }
@@ -92,28 +100,37 @@ class CategoryUserController extends Controller
         if ($permissions) {
             // it can contain other permissions as well (for future usage), so make sure to have the
             // permission in the array
-            if (array_search(User::PERMISSIONS['upload_root'], $permissions) === false) {
-                array_push($permissions, User::PERMISSIONS['upload_root']);
+            if (!array_key_exists(User::PERMISSIONS['upload_root'], $permissions)) {
+
+                $permissions[User::PERMISSIONS['upload_root']] = 1;
                 $user->update([
                     'permissions' => $permissions
                 ]);
             } else {
                 // already there, so it needs to be removed
-                $permissionId = array_search(User::PERMISSIONS['upload_root'], $permissions);
-                unset($permissions[$permissionId]);
+                // unset($permissions[User::PERMISSIONS['upload_root']]);
+                $isRootUploadStatus = $permissions[User::PERMISSIONS['upload_root']];
+                $permissions[User::PERMISSIONS['upload_root']] = $isRootUploadStatus === 0 ? 1 : 0;
 
                 $user->update([
-                    'permissions' => count($permissions) === 0 ? null : $permissions,
+                    'permissions' => $permissions,
                 ]);
-                $this->banner('Feltöltési jogosultság a gyökérhez eltávolítva.');
+                if ($isRootUploadStatus === 0) {
+                    $this->banner('Feltöltési jogosultság a gyökérhez hozzáadva.');
+                } else {
+                    $this->banner('Feltöltési jogosultság a gyökérhez eltávolítva.');
+                }
+
                 return redirect()->route('dashboard');
             }
         } else {
+            $permissions[User::PERMISSIONS['upload_root']] = 1;
             $user->update([
-                'permissions' => ['upload_root']
+                'permissions' => $permissions
             ]);
         }
         $this->banner('Feltöltési jogosultság a gyökérhez hozzáadva.');
         return redirect()->route('dashboard');
     }
+
 }
